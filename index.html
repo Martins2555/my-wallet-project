@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wallet - Crypto Wallet</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="logo">
+                <i class="fas fa-wallet"></i>
+                <span>MyWallet</span>
+            </div>
+            <ul>
+                <li class="active" onclick="showSection('home')"><i class="fas fa-home"></i> Home</li>
+                <li onclick="showSection('send')"><i class="fas fa-paper-plane"></i> Send</li>
+                <li onclick="showSection('receive')"><i class="fas fa-qrcode"></i> Receive</li>
+                <li onclick="showSection('swap')"><i class="fas fa-exchange-alt"></i> Swap</li>
+                <li onclick="showSection('buy')"><i class="fas fa-credit-card"></i> Buy</li>
+            </ul>
+            <div class="theme-toggle">
+                <button onclick="toggleTheme()" id="themeBtn">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header>
+                <div class="wallet-info">
+                    <div class="balance">
+                        <span class="balance-label">Total Balance</span>
+                        <div class="balance-amount" id="balanceAmount">$12,458.32</div>
+                        <button class="hide-balance" onclick="toggleHideBalance()" id="hideBtn">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="wallet-address">
+                        <span id="walletAddr">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</span>
+                        <button onclick="copyAddress()">Copy</button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Home Section -->
+            <section id="home-section" class="section active">
+                <h2>Portfolio</h2>
+                <div class="tokens-grid" id="tokensGrid">
+                    <!-- Tokens populated by JS -->
+                </div>
+            </section>
+
+            <!-- Send Section -->
+            <section id="send-section" class="section">
+                <h2>Send Crypto</h2>
+                <div class="form-group">
+                    <label>Token</label>
+                    <select id="sendToken">
+                        <option value="ETH">Ethereum (ETH)</option>
+                        <option value="BTC">Bitcoin (BTC)</option>
+                        <option value="USDT">Tether (USDT)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount</label>
+                    <input type="number" id="sendAmount" placeholder="0.00" step="0.0001">
+                </div>
+                <div class="form-group">
+                    <label>Network</label>
+                    <select id="sendNetwork">
+                        <option value="Ethereum">Ethereum Mainnet</option>
+                        <option value="BSC">Binance Smart Chain</option>
+                        <option value="Polygon">Polygon</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Recipient Address</label>
+                    <input type="text" id="recipientAddr" placeholder="0x...">
+                </div>
+                <button class="btn primary" onclick="sendCrypto()">Send Now</button>
+            </section>
+
+            <!-- Receive Section -->
+            <section id="receive-section" class="section">
+                <h2>Receive Crypto</h2>
+                <div class="qr-container">
+                    <div id="qrCode">[QR Code Placeholder - In real app use QR library]</div>
+                </div>
+                <div class="form-group">
+                    <label>Select Token/Network</label>
+                    <select id="receiveToken" onchange="updateReceiveAddress()">
+                        <option value="ETH">Ethereum (ETH)</option>
+                        <option value="BTC">Bitcoin (BTC)</option>
+                    </select>
+                </div>
+                <div class="wallet-address-large">
+                    <span id="receiveAddress">0x742d35Cc6634C0532925a3b844Bc454e4438f44e</span>
+                    <button onclick="copyReceiveAddress()">Copy Address</button>
+                </div>
+            </section>
+
+            <!-- Swap Section -->
+            <section id="swap-section" class="section">
+                <h2>Swap Tokens</h2>
+                <div class="swap-box">
+                    <div class="swap-from">
+                        <label>From</label>
+                        <select id="swapFrom">
+                            <option>ETH</option>
+                            <option>USDT</option>
+                        </select>
+                        <input type="number" placeholder="Amount">
+                    </div>
+                    <div class="swap-arrow"><i class="fas fa-exchange-alt"></i></div>
+                    <div class="swap-to">
+                        <label>To</label>
+                        <select id="swapTo">
+                            <option>USDC</option>
+                            <option>BTC</option>
+                        </select>
+                        <input type="number" placeholder="Amount" readonly>
+                    </div>
+                </div>
+                <button class="btn primary" onclick="performSwap()">Swap Tokens</button>
+            </section>
+
+            <!-- Buy Section -->
+            <section id="buy-section" class="section">
+                <h2>Buy Crypto</h2>
+                <div class="form-group">
+                    <label>Buy with</label>
+                    <select>
+                        <option>USD Card</option>
+                        <option>Bank Transfer</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount (USD)</label>
+                    <input type="number" placeholder="100">
+                </div>
+                <div class="form-group">
+                    <label>Token</label>
+                    <select>
+                        <option>BTC</option>
+                        <option>ETH</option>
+                    </select>
+                </div>
+                <button class="btn primary">Buy Now</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
