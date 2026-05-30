@@ -1,73 +1,89 @@
-// Main JavaScript for Crypto Wallet
-let isBalanceHidden = false;
-let currentTheme = 'dark';
-
+// Modern Mobile Wallet JavaScript
 const tokens = [
-    { symbol: 'ETH', name: 'Ethereum', balance: '4.872', usd: '12458.32', color: '#627EEA' },
-    { symbol: 'BTC', name: 'Bitcoin', balance: '0.184', usd: '11240', color: '#F7931A' },
-    { symbol: 'USDT', name: 'Tether', balance: '2450.00', usd: '2450', color: '#26A17B' }
+    {
+        symbol: 'ETH',
+        name: 'Ethereum',
+        amount: '0.01923 ETH',
+        value: '$37.42',
+        change: '+2.18',
+        icon: '⟠'
+    },
+    {
+        symbol: 'USDC',
+        name: 'USD Coin',
+        amount: '4.8732 USDC',
+        value: '$4.87',
+        change: '-0.09',
+        icon: '$'
+    },
+    {
+        symbol: 'SOL',
+        name: 'Solana',
+        amount: '0.3284 SOL',
+        value: '$6.13',
+        change: '+0.45',
+        icon: '◎'
+    }
 ];
 
 function renderTokens() {
-    const grid = document.getElementById('tokensGrid');
-    if (!grid) return;
-    grid.innerHTML = tokens.map(t => `
-        <div class="token-card">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-                <div style="display:flex;align-items:center;gap:14px;">
-                    <div style="width:48px;height:48px;border-radius:50%;background:${t.color};"></div>
-                    <div>
-                        <div style="font-weight:700;font-size:1.1rem;">${t.symbol}</div>
-                        <div style="color:var(--text-light);">${t.name}</div>
-                    </div>
+    const container = document.getElementById('tokensList');
+    if (!container) return;
+
+    container.innerHTML = tokens.map(token => `
+        <div class="token-item">
+            <div class="token-left">
+                <div class="token-icon" style="background: linear-gradient(45deg, #6366f1, #a855f7); color: white;">
+                    ${token.icon}
                 </div>
-                <div style="text-align:right;">
-                    <div style="font-weight:700;">$${t.usd}</div>
-                    <div>${t.balance} ${t.symbol}</div>
+                <div>
+                    <div style="font-weight: 600;">${token.symbol}</div>
+                    <div style="font-size: 13px; opacity: 0.7;">${token.amount}</div>
+                </div>
+            </div>
+            <div style="text-align: right;">
+                <div style="font-weight: 600;">${token.value}</div>
+                <div style="font-size: 13px; color: ${token.change.includes('+') ? '#22c55e' : '#ef4444'};">
+                    ${token.change}
                 </div>
             </div>
         </div>
     `).join('');
 }
 
-function showSection(sec) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    const target = document.getElementById(sec + '-section');
-    if (target) target.classList.add('active');
+function showFeature(type) {
+    let msg = '';
+    switch(type) {
+        case 'send':
+            msg = 'Transfer feature - Enter amount and address';
+            break;
+        case 'swap':
+            msg = 'Exchange feature activated!';
+            break;
+        case 'buy':
+            msg = 'Purchase crypto coming soon!';
+            break;
+        default:
+            msg = 'Feature activated (Demo)';
+    }
+    alert(msg);
 }
 
-function toggleTheme() {
-    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', currentTheme);
+function switchTab(n) {
+    document.querySelectorAll('.nav-item').forEach((item, index) => {
+        item.classList.toggle('active', index === n);
+    });
 }
 
-function toggleHideBalance() {
-    isBalanceHidden = !isBalanceHidden;
-    const el = document.getElementById('balanceAmount');
-    el.textContent = isBalanceHidden ? '•••••••' : '$12,458.32';
-}
-
-function copyAddress() {
-    navigator.clipboard.writeText(document.getElementById('walletAddr').textContent);
-    alert('✅ Wallet address copied!');
-}
-
-function sendCrypto() {
-    const amt = document.getElementById('sendAmount').value;
-    if (amt > 0) alert(`✅ Sent ${amt} successfully! (Demo mode)`);
-    else alert('Please enter amount');
-}
-
-function performSwap() {
-    alert('✅ Swap completed! (Demo)');
-}
-
-function copyReceiveAddress() {
-    copyAddress();
-}
-
-// Init
+// Initialize
 window.onload = function() {
     renderTokens();
-    showSection('home');
+
+    // Hide balance functionality
+    const balanceEl = document.getElementById('balanceAmount');
+    let hidden = false;
+    balanceEl.addEventListener('click', () => {
+        hidden = !hidden;
+        balanceEl.textContent = hidden ? '••••••' : '$58.75';
+    });
 };
